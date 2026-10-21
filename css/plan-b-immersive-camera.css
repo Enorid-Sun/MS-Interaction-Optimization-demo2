@@ -1,0 +1,41 @@
+/* Page-only styling; existing shared components and tokens remain authoritative. */
+body[data-plan-b-page="immersive"] .iw-camera-screen {container-type:inline-size}
+.iw-camera-screen .iw-mask {background:linear-gradient(to bottom,rgba(42,49,54,.38),rgba(35,42,47,.16) 22%,transparent 37%)}
+.iw-camera-screen .camera-bottom-scrim {position:absolute;left:0;right:0;bottom:0;height:calc(30cqw + 244px);z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(42,49,54,.78),rgba(39,46,51,.65) 30%,rgba(35,42,47,.35) 60%,rgba(31,38,43,.12) 80%,transparent)}
+.iw-camera-screen .camera-data {position:absolute;left:5cqw;right:5cqw;bottom:158px;display:flex;flex-direction:column;pointer-events:none}
+.iw-camera-screen .camera-course {font-size:2.7cqw;color:#c8d8d3;letter-spacing:.3cqw}
+.iw-camera-screen .camera-progress {height:.6cqw;background:var(--line-soft);margin-top:2.4cqw;border-radius:999px;overflow:hidden}
+.iw-camera-screen .camera-progress i {display:block;height:100%;width:33%;background:linear-gradient(90deg,var(--accent-green),#bcf877);box-shadow:0 0 12px #b8f56a}
+.iw-camera-screen .camera-metrics {display:grid;grid-template-columns:repeat(4,1fr);gap:1cqw;margin-top:3.5cqw}
+.iw-camera-screen .camera-metric {border-left:1px solid var(--line);padding-left:2cqw}
+.iw-camera-screen .camera-metric:first-child {border:0;padding-left:0}
+.iw-camera-screen .camera-metric label {display:block;font-size:2.5cqw;color:#cbd5d1;margin-bottom:1.4cqw}
+.iw-camera-screen .camera-metric strong {font:italic 5cqw "Archivo Black",sans-serif;letter-spacing:-.2cqw;font-variant-numeric:tabular-nums;text-shadow:0 1px 9px #0003}
+.iw-camera-screen .camera-metric small {font-size:1.9cqw;color:var(--muted);margin-left:.5cqw}
+.iw-camera-screen .camera-capture {position:absolute;z-index:3;top:1.5%;left:0;width:100%;aspect-ratio:1672/941;padding:0;border:0;background:transparent;cursor:pointer;color:var(--text);pointer-events:auto;-webkit-tap-highlight-color:transparent}
+.iw-camera-screen .camera-capture:disabled {cursor:default}
+.iw-camera-screen .camera-capture:focus-visible {outline:2px solid var(--cyan);outline-offset:-4px;border-radius:12px}
+.iw-camera-screen .camera-capture img {display:block;width:100%;height:100%;object-fit:contain;filter:saturate(.83) brightness(.93);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 77%,transparent),linear-gradient(to right,transparent,#000 9%,#000 91%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 77%,transparent),linear-gradient(to right,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect}
+.iw-camera-screen .camera-capture svg {position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.iw-camera-screen .camera-target {--point:#e5ece8}
+.iw-camera-screen .camera-target.hit {--point:#a6f06b}
+.iw-camera-screen .camera-target.miss {--point:#ffc078}
+.iw-camera-screen .camera-ring {fill:#15221e44;stroke:var(--point);stroke-width:7;transition:stroke .25s,fill .25s}
+.iw-camera-screen .hit .camera-ring {fill:#a6f06be6}
+.iw-camera-screen .camera-halo {fill:none;stroke:var(--point);stroke-width:4;opacity:0}
+.iw-camera-screen .animating .camera-halo {animation:iwCameraPing 1.1s .28s ease-out}
+.iw-camera-screen .camera-check {stroke:#203b20;fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;opacity:0;stroke-dasharray:65;stroke-dashoffset:65;transition:stroke-dashoffset .3s,opacity .2s}
+.iw-camera-screen .hit .camera-check {opacity:1;stroke-dashoffset:0}
+.iw-camera-screen .camera-cross {stroke:var(--point);stroke-width:3;opacity:.75}
+.iw-camera-screen .hit .camera-cross {opacity:0}
+.iw-camera-screen .camera-track {fill:white;stroke:#20342e;stroke-width:4}
+.iw-camera-screen .camera-guide {stroke:#ffc078;stroke-width:4;stroke-dasharray:9 9}
+.iw-camera-screen .animating .camera-guide {animation:iwCameraDash .65s linear 2}
+.iw-camera-screen .animating .camera-target {animation:iwCameraArrive .35s ease-out}
+.iw-camera-screen .camera-target-label {fill:white;font:600 28px "Barlow",system-ui,sans-serif;paint-order:stroke;stroke:#1c231dbb;stroke-width:5;opacity:0}
+.iw-camera-screen .miss .camera-target-label {opacity:1}
+.iw-camera-screen.camera-paused .camera-capture * {animation-play-state:paused!important}
+@keyframes iwCameraPing {0%{r:40;opacity:.9}100%{r:70;opacity:0}}
+@keyframes iwCameraDash {to{stroke-dashoffset:-36}}
+@keyframes iwCameraArrive {from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce) {.iw-camera-screen .camera-capture * {animation:none!important;transition:none!important}}

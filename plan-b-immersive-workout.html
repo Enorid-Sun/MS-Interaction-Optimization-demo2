@@ -22,7 +22,11 @@
     <div class="vignette" aria-hidden="true"></div>
 
 <section class="immersive-workout-screen active iw-camera-screen" id="immersiveWorkoutScreen" aria-label="Immersive workout control" aria-hidden="false">
-      <video id="iwVideo" class="iw-video" preload="none" playsinline muted poster="assets/strength-training-frame.png" aria-label="Static training demonstration"><source id="iwVideoSource" type="video/mp4" /></video>
+      <div class="pip-training pip-pane"><video id="iwVideo" class="iw-video" preload="none" playsinline muted poster="assets/strength-training-frame.png" aria-label="Static training demonstration"><source id="iwVideoSource" type="video/mp4" /></video></div>
+      <div class="camera-capture pip-pane" id="iwCameraButton" role="img" aria-label="Simulated camera image">
+          <img id="iwCameraImage" src="assets/immersive-camera/reached.png" alt="AI-generated gym image" />
+          <svg id="iwCameraPoints" viewBox="0 0 1672 941" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        </div>
       <div class="iw-mask"></div><div class="camera-bottom-scrim" aria-hidden="true"></div>
       <div class="iw-ai-ready-overlay" id="iwAiReadyOverlay" aria-hidden="true">
         <div class="iw-ai-ready-panel" id="iwAiReadyPanel" data-recog-state="scanning">
@@ -62,10 +66,8 @@
             <div class="camera-metric"><label>卡路里</label><strong>14</strong><small>kcal</small></div>
           </div>
         </section>
-        <button class="camera-capture" id="iwCameraButton" type="button" disabled aria-label="Select another simulated camera image">
-          <img id="iwCameraImage" src="assets/immersive-camera/reached.png" alt="AI-generated gym image" />
-          <svg id="iwCameraPoints" viewBox="0 0 1672 941" aria-hidden="true"></svg>
-        </button>
+        <button class="pip-swap" id="iwPipSwap" type="button" disabled aria-label="Show camera in full screen" aria-pressed="false"></button>
+        <button class="camera-state-trigger" id="iwCameraTrigger" type="button" disabled aria-label="Show another simulated target position"></button>
         <section class="iw-drawer" id="iwDrawer">
           <div class="iw-handle" id="iwDrawerHandle">
             <div class="iw-summary">

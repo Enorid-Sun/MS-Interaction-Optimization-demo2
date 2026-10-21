@@ -11,19 +11,25 @@
   const targets = [[732,350],[943,350]], tolerance = 42;
   const initial = { seconds: 132, capacityKg: 81, energyKj: 2.7, caloriesKcal: 14 };
   const button = document.getElementById("iwCameraButton");
+  const trigger = document.getElementById("iwCameraTrigger");
+  const swap = document.getElementById("iwPipSwap");
   const image = document.getElementById("iwCameraImage");
   const points = document.getElementById("iwCameraPoints");
   const screen = document.getElementById("immersiveWorkoutScreen");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let active = false, playing = false, ready = false, revision = 0;
   let index = 0, bag = [], elapsed = 0, last = 0, frame = 0, revealAge = null, bridge;
+  function syncControls() {
+    trigger.disabled = swap.disabled = !active || !playing || !ready;
+    button.setAttribute("aria-busy", String(!ready));
+  }
   function reveal() {
     points.querySelectorAll(".camera-target").forEach(el => el.classList.add(el.dataset.result));
     revealAge = null;
   }
   async function show(next, animate = true) {
     const ticket = ++revision;
-    ready = false; button.disabled = true;
+    ready = false; syncControls();
     button.classList.remove("animating");
     points.replaceChildren();
     image.src = states[next].image;
@@ -51,8 +57,8 @@
     ).join("");
     button.dataset.state = String(index);
     button.dataset.hits = results.map(r=>r.hit ? "1" : "0").join("");
-    button.setAttribute("aria-label", states[index].name + ". Select another simulated image.");
-    ready = true; button.disabled = !playing;
+    button.setAttribute("aria-label", states[index].name);
+    ready = true; syncControls();
     revealAge = 0;
     if (!animate || reduced.matches) reveal();
     else { void button.offsetWidth; button.classList.add("animating"); }
@@ -86,13 +92,19 @@
   function togglePlaying() {
     playing = !playing;
     screen.classList.toggle("camera-paused",!playing);
-    button.disabled = !playing || !ready;
+    syncControls();
     const control=document.getElementById("iwPlayBtn");
     control.textContent=playing ? "Pause" : "Play";
     control.setAttribute("aria-pressed",String(!playing));
     bridge.onPlaying(playing); last=performance.now();
   }
-  button.addEventListener("click",randomNext);
+  trigger.addEventListener("click",randomNext);
+  swap.addEventListener("click", () => {
+    if (!active || !playing || !ready) return;
+    const cameraMain = screen.classList.toggle("is-camera-main");
+    swap.setAttribute("aria-pressed", String(cameraMain));
+    swap.setAttribute("aria-label", cameraMain ? "Show training in full screen" : "Show camera in full screen");
+  });
   states.forEach(state => { const preload=new Image();preload.src=state.image; });
   show(0,false);
   document.addEventListener("visibilitychange",()=>{last=performance.now();});
@@ -102,7 +114,7 @@
     start(callbacks) {
       if(active)return;
       bridge=callbacks;active=true;playing=true;last=performance.now();
-      button.disabled=!ready;screen.dataset.dataSource="simulation";
+      syncControls();screen.dataset.dataSource="simulation";
       frame=requestAnimationFrame(tick);
     },
     togglePlaying,

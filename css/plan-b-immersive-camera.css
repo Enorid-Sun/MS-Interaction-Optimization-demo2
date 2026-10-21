@@ -12,10 +12,17 @@ body[data-plan-b-page="immersive"] .iw-camera-screen {container-type:inline-size
 .iw-camera-screen .camera-metric label {display:block;font-size:2.5cqw;color:#cbd5d1;margin-bottom:1.4cqw}
 .iw-camera-screen .camera-metric strong {font:italic 5cqw "Archivo Black",sans-serif;letter-spacing:-.2cqw;font-variant-numeric:tabular-nums;text-shadow:0 1px 9px #0003}
 .iw-camera-screen .camera-metric small {font-size:1.9cqw;color:var(--muted);margin-left:.5cqw}
-.iw-camera-screen .camera-capture {position:absolute;z-index:3;top:1.5%;left:0;width:100%;aspect-ratio:1672/941;padding:0;border:0;background:transparent;cursor:pointer;color:var(--text);pointer-events:auto;-webkit-tap-highlight-color:transparent}
-.iw-camera-screen .camera-capture:disabled {cursor:default}
-.iw-camera-screen .camera-capture:focus-visible {outline:2px solid var(--cyan);outline-offset:-4px;border-radius:12px}
-.iw-camera-screen .camera-capture img {display:block;width:100%;height:100%;object-fit:contain;filter:saturate(.83) brightness(.93);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 77%,transparent),linear-gradient(to right,transparent,#000 9%,#000 91%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent,#000 9%,#000 77%,transparent),linear-gradient(to right,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect}
+/* Both panes share the screen's portrait ratio. Image and SVG use identical center crops. */
+.iw-camera-screen .pip-pane {position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;pointer-events:none;background:#000;transition:top .32s ease,left .32s ease,width .32s ease,height .32s ease,border-radius .32s ease;}
+.iw-camera-screen .camera-capture {padding:0;border:0;color:var(--text)}
+.iw-camera-screen:not(.is-camera-main) .camera-capture,
+.iw-camera-screen.is-camera-main .pip-training {top:3%;left:67%;width:30%;height:30%;z-index:2;border-radius:12px;box-shadow:0 4px 18px #0006,0 0 0 1px #ffffff26}
+.iw-camera-screen .camera-capture img {display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.83) brightness(.93)}
+.iw-camera-screen .pip-swap,.iw-camera-screen .camera-state-trigger {position:absolute;padding:0;border:0;background:transparent;color:inherit;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.iw-camera-screen .pip-swap {top:3%;left:67%;width:30%;height:30%;z-index:3;border-radius:12px}
+.iw-camera-screen .camera-state-trigger {top:36%;left:8%;width:84%;height:25%;z-index:1}
+.iw-camera-screen .pip-swap:disabled,.iw-camera-screen .camera-state-trigger:disabled {cursor:default}
+.iw-camera-screen .pip-swap:focus-visible,.iw-camera-screen .camera-state-trigger:focus-visible {outline:2px solid var(--cyan);outline-offset:-4px}
 .iw-camera-screen .camera-capture svg {position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .iw-camera-screen .camera-target {--point:#e5ece8}
 .iw-camera-screen .camera-target.hit {--point:#a6f06b}
@@ -39,3 +46,5 @@ body[data-plan-b-page="immersive"] .iw-camera-screen {container-type:inline-size
 @keyframes iwCameraDash {to{stroke-dashoffset:-36}}
 @keyframes iwCameraArrive {from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce) {.iw-camera-screen .camera-capture * {animation:none!important;transition:none!important}}
+
+@media(prefers-reduced-motion:reduce) {.iw-camera-screen .pip-pane {transition:none}}
